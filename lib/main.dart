@@ -1,24 +1,32 @@
+import 'package:ejemplo/usuariocontroller.dart';
 import 'package:flutter/material.dart';
+import 'package:ejemplo/database.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  
+
   const MyApp({super.key});
 
+ // UsuarioController _uc = new UsuarioController();
+
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
 
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'CRUD Flutter',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 50, 148, 101)),
         useMaterial3: true,
       ),
      
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'CRUD'),
     );
   }
 }
@@ -36,11 +44,14 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+
 class _MyHomePageState extends State<MyHomePage> {
 
 
   @override
   Widget build(BuildContext context) {
+
+  
     
     return Scaffold(
       appBar: AppBar(
@@ -54,14 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.symmetric(horizontal: 5.0,vertical: 10.0),
           
           children: [
-            _crearInput(),    // TextField con múltiples opciones de decoración
+            _crearNombre(),
             Divider(),
             _crearEmail(),
             Divider(),
-            _crearTelefono(),
-            Divider(),
             _crearPassword(),
             Divider(),
+            _crearTelefono(),
+            Divider(),
+            _botonRegistrar(),
             //llamar a otro widget
 
           ],
@@ -71,12 +83,35 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget _crearNombre() {
+
+    return TextField(
+      textCapitalization: TextCapitalization.words,
+      maxLength: 10,
+      keyboardType: TextInputType.name,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(     // Establece un borde cicular/otro  alrededor de la caja de texto
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        counterText: 'Número de caracteres: 0',   // Texto que aparece a la derecha y debajo de la caja
+        hintText: 'Nombres y Apellidos',          // Texto que aparece dentro de la caja y desaparece al escribir
+        labelText: 'Nombre',                      // Texto qye aparece encima de la caja AL PULSAR EN EL INTERIOR PARA ESCRIBIR
+        helperText: 'Introduce nombre y apellido',  // Texto que aparece a la izquierda y abajo de la caja
+        suffixIcon: Icon(Icons.accessibility_new),     // Widget que aparece a la derecha dentro de la caja
+        icon: Icon(Icons.accessibility),          // Widget que aparece a la izquierda fuera de la caja
+
+      ),
+    );
+
+  }
+
+
    Widget _crearEmail(){
 
     return TextField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        hintText: 'Email del paciente',
+        hintText: 'Email',
         labelText: 'Email',
         suffixIcon: Icon(Icons.email),
         border: OutlineInputBorder(
@@ -104,28 +139,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _crearInput() {
-
-    return TextField(
-      textCapitalization: TextCapitalization.words,
-      maxLength: 10,
-      keyboardType: TextInputType.name,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(     // Establece un borde cicular/otro  alrededor de la caja de texto
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        counterText: 'Número de caracteres: 0',   // Texto que aparece a la derecha y debajo de la caja
-        hintText: 'Nombre del paciente',          // Texto que aparece dentro de la caja y desaparece al escribir
-        labelText: 'Nombre',                      // Texto qye aparece encima de la caja AL PULSAR EN EL INTERIOR PARA ESCRIBIR
-        helperText: 'Introduce el nombre del paciente',  // Texto que aparece a la izquierda y abajo de la caja
-        suffixIcon: Icon(Icons.access_alarm),     // Widget que aparece a la derecha dentro de la caja
-        icon: Icon(Icons.accessibility),          // Widget que aparece a la izquierda fuera de la caja
-
-      ),
-    );
-
-  }
-
 
 
   Widget _crearTelefono()
@@ -139,14 +152,38 @@ class _MyHomePageState extends State<MyHomePage> {
           borderRadius: BorderRadius.circular(15.0),
         ),
         counterText: 'Número de caracteres: 0',   // Texto que aparece a la derecha y debajo de la caja
-        hintText: 'Nombre del paciente',          // Texto que aparece dentro de la caja y desaparece al escribir
+        hintText: 'Telefono',          // Texto que aparece dentro de la caja y desaparece al escribir
         labelText: 'Telefono',                      // Texto qye aparece encima de la caja AL PULSAR EN EL INTERIOR PARA ESCRIBIR
-        helperText: 'Intriduce el telefono',  // Texto que aparece a la izquierda y abajo de la caja
-        suffixIcon: Icon(Icons.access_alarm),     // Widget que aparece a la derecha dentro de la caja
+        helperText: 'Introduce el telefono',  // Texto que aparece a la izquierda y abajo de la caja
+        suffixIcon: Icon(Icons.phone),     // Widget que aparece a la derecha dentro de la caja
         icon: Icon(Icons.phone),          // Widget que aparece a la izquierda fuera de la caja
 
       ),
     );
   }
+
+ 
+  Widget _botonRegistrar() {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 80, vertical: 18),
+      child: ElevatedButton.icon(
+        onPressed: () {
+          
+          UsuarioController _uc = new UsuarioController();
+          _uc.prueba();
+          //_con.register(_con.idDepartamento, _con.idProvincia, _con.idMunicipio); llamo a la funcion registrar
+        } ,
+        label: Text('REGISTRAR'),
+        icon: Icon(Icons.save),
+        style: ElevatedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            padding: EdgeInsets.symmetric(vertical: 8)),
+      ),
+    );
+  }
+
+
 
 }

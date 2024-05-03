@@ -8,31 +8,31 @@ class User {
   int id;
   String nombre;
   String email;
-  String username;
-  int estado;
+  String password;
+  String telefono;
   
   User({
     this.id=0,
     this.nombre='',
     this.email='',
-    this.username='',
-    this.estado=0
+    this.password='',
+    this.telefono=''
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
     nombre: json["nombre"],
     email: json["email"],
-    username: json["username"],
-    estado: json["estado"],
+    password: json["password"],
+    telefono: json["telefono"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "nombre": nombre,
     "email": email,
-    "username": username,
-    "estado": estado,
+    "password": password,
+    "telefono": telefono,
   };
 }
 

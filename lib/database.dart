@@ -1,11 +1,12 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:ejemplo/usuarios.dart';
 
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqlite_api.dart';
+//import 'package:sqflite/sqlite_api.dart';
 
 
 class DBProvider {
@@ -23,16 +24,26 @@ class DBProvider {
     {
       return _database;
     }
+    //si no esta creada la base de datos la crea
     _database = await initDB();
     return _database;
   }
 
 
   initDB() async {
+
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
+
+    // creando una ruta con el nombre de la base de datos
     String path = join(documentsDirectory.path, "db_ejemplo.db");
-    return await openDatabase(path,
-        version: 1, onOpen: (db) {}, onCreate: _createTables);
+
+    return await openDatabase(
+        path,
+        version: 1, 
+        onOpen: (db) {}, 
+        onCreate: _createTables
+        );
+
   }
 
 
@@ -40,43 +51,41 @@ class DBProvider {
 
     await db.execute("CREATE TABLE usuarios ("
         "id INTEGER NOT NULL PRIMARY KEY,"
-        "nompresapellidos VARCHAR(100)  NOT NULL,"
+        "nombre VARCHAR(100)  NOT NULL,"
         "correo VARCHAR(50) NOT NULL,"
-        "telefono VARCHAR(50) NULL,"
-        "estado INTEGER)");
+        "password VARCHAR(50) NULL,"
+        "telefono VARCHAR(50))");
 
   }
 
-
-    /*newUsuarios(Codificadores newCodificadores) async {
+  guardarUsuarios(User newUsario) async {
 
     final db = await database;
     var res =   await db.rawInsert(
-        "INSERT OR REPLACE INTO codificadores (id, clasificador_id, nombre, removed, observacion,estado)"
-        " VALUES (?,?,?,?,?,?)",
-        [
-          newCodificadores.id,
-          newCodificadores.clasificadorid,
-          newCodificadores.nombre,
-          newCodificadores.removed,
-          newCodificadores.observacion,
-          newCodificadores.estado
+        "INSERT OR REPLACE INTO usuarios (id, nombre, correo, password, telefono)"
+        " VALUES (?,?,?,?,?)",
+        [(
+          newUsario.id,
+          newUsario.nombre,
+          newUsario.email,
+          newUsario.password,
+          newUsario.telefono
+          )
         ]);
     return res;
   }
-  
-    getCodificadoresAll(String id) async {
-      final db = await database;
-      var res = await db.query("codificadores",where: "clasificador_id = ?", whereArgs: [id]);
-      //List<Codificadores> list = res.isNotEmpty ? res.map((c) => Codificadores.fromMap(c)).toList() : [];
-      var lista = json.encode(res); 
-      return lista;
+
+
+  guardarUsuariosok() async {
+
+      print('llama ok'); 
   }
 
-  
-  
-  */
 
 
+  
+  
+
+  
 }
 
