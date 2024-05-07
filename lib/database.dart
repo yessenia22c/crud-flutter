@@ -5,32 +5,34 @@ import 'package:ejemplo/usuarios.dart';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
 //import 'package:sqflite/sqlite_api.dart';
 
 
 class DBProvider {
 
-  DBProvider._();
-  static final DBProvider bd = DBProvider._();
 
-  
-  //late se inicia despues pero antes de su primer uso
-  late Database _database;
+static final DBProvider instance = DBProvider._init();
+  static Database? _database;
 
-  
-  Future<Database> get database async { 
-    if (_database != null) 
-    {
-      return _database;
-    }
-    //si no esta creada la base de datos la crea
-    _database = await initDB();
-    return _database;
+  DBProvider._init();
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    
+    _database = await _initDB('mydatabase.db');
+    return _database!;
   }
 
+  Future<Database> _initDB(String filePath) async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, filePath);
 
-  initDB() async {
+    return await openDatabase(path, version: 1, onOpen: (db) {},onCreate: _createTables);
+  }
+  
+
+  /*initDB() async {
 
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
@@ -44,7 +46,10 @@ class DBProvider {
         onCreate: _createTables
         );
 
-  }
+  } */
+
+
+
 
 
   void _createTables(Database db, int version) async {
@@ -61,24 +66,31 @@ class DBProvider {
   guardarUsuarios(User newUsario) async {
 
     final db = await database;
+
     var res =   await db.rawInsert(
+
+      
         "INSERT OR REPLACE INTO usuarios (id, nombre, correo, password, telefono)"
         " VALUES (?,?,?,?,?)",
-        [(
+        [
           newUsario.id,
-          newUsario.nombre,
-          newUsario.email,
-          newUsario.password,
-          newUsario.telefono
-          )
+          "'"+newUsario.nombre +"'",
+          "'"+newUsario.email +"'",
+          "'"+newUsario.password +"'",
+          "'"+newUsario.telefono +"'"
+          
         ]);
     return res;
   }
 
 
-  guardarUsuariosok() async {
+  eliminarUsuarios(){
 
-      print('llama ok'); 
+  }
+
+
+  probarllegada() async {
+      print('llega a intentar guardar'); 
   }
 
 

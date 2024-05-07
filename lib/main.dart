@@ -4,6 +4,7 @@ import 'package:ejemplo/database.dart';
 
 void main() {
   runApp(const MyApp());
+  
 }
 
 class MyApp extends StatelessWidget {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
+  
 
   final String title;
 
@@ -46,7 +47,8 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  
+  UsuarioController _uc = new UsuarioController();
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
       textCapitalization: TextCapitalization.words,
       maxLength: 10,
       keyboardType: TextInputType.name,
+      //conexion al controlador
+      controller: _uc.nombreapellido_con,
       decoration: InputDecoration(
         border: OutlineInputBorder(     // Establece un borde cicular/otro  alrededor de la caja de texto
           borderRadius: BorderRadius.circular(15.0),
@@ -110,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return TextField(
       keyboardType: TextInputType.emailAddress,
+      controller: _uc.correo_con,
       decoration: InputDecoration(
         hintText: 'Email',
         labelText: 'Email',
@@ -127,6 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return TextField(
       obscureText: true,
       obscuringCharacter: '-',
+      controller: _uc.password_con,
       maxLength: 20,
       decoration: InputDecoration(
           hintText: 'Password de entrada',
@@ -146,6 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return TextField(
       textCapitalization: TextCapitalization.words,
       maxLength: 10,
+      controller: _uc.telefono_con,
       keyboardType: TextInputType.name,
       decoration: InputDecoration(
         border: OutlineInputBorder(     // Establece un borde cicular/otro  alrededor de la caja de texto
@@ -168,11 +175,13 @@ class _MyHomePageState extends State<MyHomePage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 80, vertical: 18),
       child: ElevatedButton.icon(
+      
+        // EVENTO
         onPressed: () {
           
-          UsuarioController _uc = new UsuarioController();
-          _uc.prueba();
-          //_con.register(_con.idDepartamento, _con.idProvincia, _con.idMunicipio); llamo a la funcion registrar
+          // OBJETO DEL TIPO USUARIO CONTROLER           
+          _uc.guardarUsuarioController();
+
         } ,
         label: Text('REGISTRAR'),
         icon: Icon(Icons.save),
