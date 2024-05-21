@@ -2,8 +2,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ejemplo/database.dart';
-import 'package:ejemplo/usuarios.dart';
+import 'package:ejemplo/database/database.dart';
+import 'package:ejemplo/models/usuarios.dart';
 import 'package:flutter/cupertino.dart';
 
 
