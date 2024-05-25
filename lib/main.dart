@@ -41,6 +41,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         'login': (BuildContext context) => const LoginPage(),
         'register':(BuildContext context)=>RegisterUserPage(),
+        //'principal':(BuildContext context)=>UsuarioController(),
 
         // En el caso de que se tenga subcarpetas dentro de otras de pages
         //'/inicio/principal': (BuildContext context) => const PrincipalPage(),

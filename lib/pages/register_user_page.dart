@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:ejemplo/controllers/usuariocontroller.dart';
+import 'package:ejemplo/pages/login_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -33,6 +34,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
       body: Container(
         width:double.infinity,
         child: Stack(
+          
           children: [
             SingleChildScrollView(
               child: Column(
@@ -143,7 +145,7 @@ Widget _crearNombre() {
     );
   }
 
- 
+ //final _registro = null;
   Widget _botonRegistrar() {
     return Container(
       width: double.infinity,
@@ -153,8 +155,20 @@ Widget _crearNombre() {
         // EVENTO
         onPressed: () {
           
-          // OBJETO DEL TIPO USUARIO CONTROLER           
+          // OBJETO DEL TIPO USUARIO CONTROLER   
+          //
+          final _registro = _uc.guardarUsuarioController();        
           //_uc.guardarUsuarioController();
+          if(_registro != null){
+            Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+            builder: (context) => LoginPage(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+          }
+          
 
         } ,
         label: Text('REGISTRAR'),
